@@ -288,11 +288,15 @@ install-codeception:
 
 .PHONY: test-codeception-unit
 test-codeception-unit:
-	@docker-compose exec php-fpm tests/vendor/bin/codecept run wpunit --xml=junit.xml --html --debug
+	@docker-compose exec php-fpm tests/vendor/bin/codecept run wpunit --no-redirect --xml=junit.xml --html --debug --coverage-html coverage_unit
 
 .PHONY: test-codeception-acceptance
 test-codeception-acceptance:
-	@docker-compose exec php-fpm tests/vendor/bin/codecept run acceptance --xml=junit.xml --html
+	@docker-compose exec php-fpm tests/vendor/bin/codecept run acceptance --no-redirect --xml=junit.xml --html --coverage --coverage-html coverage_acceptance
+
+.PHONY: test-codeception-acceptance-404
+test-codeception-acceptance-404:
+	@docker-compose exec php-fpm tests/vendor/bin/codecept run acceptance 404PageCept.php --xml=junit.xml --html
 
 .PHONY: test-codeception
 test-codeception: test-codeception-acceptance
